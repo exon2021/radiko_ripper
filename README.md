@@ -6,8 +6,13 @@ Windows 7 32bitで動作確認しています。
 ## 必要なもの 
 - Delphi 6/7ソースをコンパイルできる環境
 - wget
-- OpenSSL dll (a.dll b.dll)
+- OpenSSL dll (libeay32.dll ssleay32.dll) バージョンは1.0.2pで動作確認しました
 - ffmpeg
+
+## コンパイルの方法
+radiko_ripper.dprがソース本体です。これをコンパイルしてください。
+Delphi用のプロジェクトファイルでもあり、ソースでもあります。
+コマンドラインのCUIツールは、この１つのファイルだけで済みます。
 
 ## 使い方 how to use
 - リアルタイム録音するとき radiko_ripper <放送局名> <録音時間 分>
