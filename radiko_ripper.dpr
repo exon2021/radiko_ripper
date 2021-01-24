@@ -19,10 +19,10 @@ const
   TEISU_MAX = 11;
   TEISU_PLAYER = 'player.swf';
   TEISU_SWF = 'https://radiko.jp/apps/js/flash/myplayer-release.swf';
-  //ƒ‰ƒWƒRƒvƒŒƒ~ƒAƒ€‚ÅƒƒOƒCƒ“‚µ‚È‚¢Œ`‚ª_fms
+  //ãƒ©ã‚¸ã‚³ãƒ—ãƒ¬ãƒŸã‚¢ãƒ ã§ãƒ­ã‚°ã‚¤ãƒ³ã—ãªã„å½¢ãŒ_fms
   TEISU_AUTH1 = 'https://radiko.jp/v2/api/auth1_fms';
   TEISU_AUTH2 = 'https://radiko.jp/v2/api/auth2_fms';
-  //ƒƒOƒCƒ“‚·‚éŒ`
+  //ãƒ­ã‚°ã‚¤ãƒ³ã™ã‚‹å½¢
   //TEISU_AUTH1 = 'https://radiko.jp/v2/api/auth1';
   //TEISU_AUTH2 = 'https://radiko.jp/v2/api/auth2';
 
@@ -32,25 +32,25 @@ const
   TEISU_USERAGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0';
 
 var
-  //ƒOƒ[ƒoƒ‹•Ï”
+  //ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°
   FSWF_str: WideString;
   FTime_Length: Word;
-  //‹Ç–¼
+  //å±€å
   tune_name: Array [0..11] of AnsiString
   = ( '',
-      'TBSƒ‰ƒWƒI',
-      '•¶‰»•ú‘—',
-      'ƒjƒbƒ|ƒ“•ú‘—',
-      'ƒ‰ƒWƒINIKKEI',
+      'TBSãƒ©ã‚¸ã‚ª',
+      'æ–‡åŒ–æ”¾é€',
+      'ãƒ‹ãƒƒãƒãƒ³æ”¾é€',
+      'ãƒ©ã‚¸ã‚ªNIKKEI',
       'InterFM',
       'TOKYO FM',
       'J-WAVE',
-      'ƒ‰ƒWƒI“ú–{',
+      'ãƒ©ã‚¸ã‚ªæ—¥æœ¬',
       'BayFM78',
       'Nack5',
-      'FM‰¡•l');
+      'FMæ¨ªæµœ');
 
-  //‹Ç–¼‚Q
+  //å±€åï¼’
   tune_alpha: Array [0..11] of AnsiString
   = ( '',
       'TBS',
@@ -64,26 +64,26 @@ var
       'BAYFM78',
       'NACK5',
       'YFM');
-  //ƒ‹[ƒvƒJƒEƒ“ƒ^
+  //ãƒ«ãƒ¼ãƒ—ã‚«ã‚¦ãƒ³ã‚¿
   i: Cardinal;
-  //‰æ–Ê“ü—Í•¶š
+  //ç”»é¢å…¥åŠ›æ–‡å­—
   inputstr: AnsiString;
-  //‘I‘ğ‚µ‚½•ú‘—‹Ç–¼
+  //é¸æŠã—ãŸæ”¾é€å±€å
   tuned_name: AnsiString;
-  //˜^‰¹ŠÔ(sec)
+  //éŒ²éŸ³æ™‚é–“(sec)
   rec_sec: Word;
   strA: AnsiString;
   exitcode: Cardinal;
   regexpr: TRegExpr;
   strList: TStringList;
-  keylength: Word;     //SSLƒL[‚Ì’·‚³
-  keyoffset: Cardinal; //SSLƒL[ƒIƒtƒZƒbƒg
-  SSLToken: AnsiString;//SSL”FØƒg[ƒNƒ“
-  SSLKey: AnsiString;  //SSLƒL[
+  keylength: Word;     //SSLã‚­ãƒ¼ã®é•·ã•
+  keyoffset: Cardinal; //SSLã‚­ãƒ¼ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+  SSLToken: AnsiString;//SSLèªè¨¼ãƒˆãƒ¼ã‚¯ãƒ³
+  SSLKey: AnsiString;  //SSLã‚­ãƒ¼
   fs: TFileStream;
-  readlength: Integer; //ƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚ğ‚µ‚½Œ‹‰Ê‚ÌƒTƒCƒY
-  poutbuffer: Pointer; //ZŒ`®ƒfƒR[ƒhÏ‚İƒoƒbƒtƒ@
-  outbuffersize: Integer; //ƒfƒR[ƒhÏ‚İƒoƒbƒtƒ@ƒTƒCƒY
+  readlength: Integer; //ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã‚’ã—ãŸçµæœã®ã‚µã‚¤ã‚º
+  poutbuffer: Pointer; //Zå½¢å¼ãƒ‡ã‚³ãƒ¼ãƒ‰æ¸ˆã¿ãƒãƒƒãƒ•ã‚¡
+  outbuffersize: Integer; //ãƒ‡ã‚³ãƒ¼ãƒ‰æ¸ˆã¿ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
   filesize: Int64;
   fileposition: Int64;
   jpgposition: Int64;
@@ -112,7 +112,7 @@ var
   sei:TShellExecuteInfo;
 begin
 
-  //ƒVƒFƒ‹‚ÅÀs‚·‚é
+  //ã‚·ã‚§ãƒ«ã§å®Ÿè¡Œã™ã‚‹
 
   FillChar(sei,SizeOf(TShellExecuteInfo),#0);
 
@@ -128,11 +128,11 @@ begin
   if ShellExecuteEx(@sei) then
   begin
 
-    //‚µ‚Î‚ç‚­‘Ò‚Â
+    //ã—ã°ã‚‰ãå¾…ã¤
     repeat
 
-        //Sleep‚Å‘Ò‚Â‚â‚è•û‚ÍAŒµ–§‚É‚Í³‚µ‚­‚È‚¢
-        //‚È‚é‚×‚­g‚í‚¸‚Éˆ—‚·‚é
+        //Sleepã§å¾…ã¤ã‚„ã‚Šæ–¹ã¯ã€å³å¯†ã«ã¯æ­£ã—ããªã„
+        //ãªã‚‹ã¹ãä½¿ã‚ãšã«å‡¦ç†ã™ã‚‹
         //Sleep(1000);
         Application.ProcessMessages;
 
@@ -145,7 +145,7 @@ begin
 
   TerminateProcess(sei.hProcess,0);
 
-  //‚µ‚Î‚ç‚­‘Ò‚Â
+  //ã—ã°ã‚‰ãå¾…ã¤
   repeat
      Application.ProcessMessages;
      GetExitCodeProcess(sei.hProcess, exitcode);
@@ -153,7 +153,7 @@ begin
 
   CloseHandle(sei.hProcess);
 
-  //‚µ‚Î‚ç‚­‘Ò‚Â
+  //ã—ã°ã‚‰ãå¾…ã¤
   repeat
      Application.ProcessMessages;
      GetExitCodeProcess(sei.hProcess, exitcode);
@@ -188,7 +188,7 @@ begin
 end;
 
 
-//ƒƒCƒ“ƒ‹[ƒ`ƒ“---------------------------------------------
+//ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³---------------------------------------------
 begin
 
   i := 0;
@@ -201,21 +201,19 @@ begin
   starttime := '';
   endtime := '';
 
-  //˜^‰¹ŠÔƒfƒtƒHƒ‹ƒg‚Í30•ª
+  //éŒ²éŸ³æ™‚é–“ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯30åˆ†
   rec_sec := TEISU_DEFAULT_REC_SEC;
 
-  //20200713 ƒ‰ƒWƒR‚Ìƒ^ƒCƒ€ƒtƒŠ[‚É‘Î‰‚µ‚½
-
-  //ˆø”‚ğ‰ğÍ‚·‚é
-  //@’¼Ú‹N“®‚Å‚Í‚È‚­‚Äˆø”‚ª“n‚³‚ê‚Ä‚¢‚ÄA
-  //  ‚P•¶š–Ú‚É radiko_ripper ‚Æ‚È‚Á‚Ä‚¢‚é‚Æ‚«
-  //@batƒtƒ@ƒCƒ‹Œo—R‚È‚ç‚»‚¤‚È‚é‚Í‚¸
+  //å¼•æ•°ã‚’è§£æã™ã‚‹
+  //ã€€ç›´æ¥èµ·å‹•ã§ã¯ãªãã¦å¼•æ•°ãŒæ¸¡ã•ã‚Œã¦ã„ã¦ã€
+  //  ï¼‘æ–‡å­—ç›®ã« radiko_ripper ã¨ãªã£ã¦ã„ã‚‹ã¨ã
+  //ã€€batãƒ•ã‚¡ã‚¤ãƒ«çµŒç”±ãªã‚‰ãã†ãªã‚‹ã¯ãš
   if (CmdLine <> '') then
   if (Pos('radiko_ripper',CmdLine) = 1) then
   begin
       regexpr := TRegExpr.Create;
 
-      //20200713 ƒ^ƒCƒ€ƒtƒŠ[—p‚Ìİ’è‚ğ’Ç‰Á
+      //20200713 ã‚¿ã‚¤ãƒ ãƒ•ãƒªãƒ¼ç”¨ã®è¨­å®šã‚’è¿½åŠ 
       regexpr.Expression := 'radiko_ripper +([0-9A-Z]+) ([0-9]+) ([0-9]+)';
       if (regexpr.Exec(CmdLine)) then
       begin
@@ -226,65 +224,65 @@ begin
           starttime := regexpr.Match[2];
           endtime := regexpr.Match[3];
           regexpr.Free;
-          //‘I‘ğ‰æ–Ê‚ğ”ò‚Î‚·
+          //é¸æŠç”»é¢ã‚’é£›ã°ã™
           goto CHECK2;
       end;
 
-      //20161225 Win7ŠÂ‹«‚Å‚Í‚È‚º‚©radiko_ripper  FMT 30‚ÆA‹ó”’‚ª‚Q‚Â“ü‚éŒ»Û‚ ‚è
+      //20161225 Win7ç’°å¢ƒã§ã¯ãªãœã‹radiko_ripper  FMT 30ã¨ã€ç©ºç™½ãŒï¼’ã¤å…¥ã‚‹ç¾è±¡ã‚ã‚Š
       regexpr.Expression := 'radiko_ripper +([0-9A-Z]+) ([0-9]+)';
 
       if (regexpr.Exec(CmdLine) = false) then
       begin
-          //ƒwƒ‹ƒv‚ğ•\¦‚µ‚ÄI—¹
+          //ãƒ˜ãƒ«ãƒ—ã‚’è¡¨ç¤ºã—ã¦çµ‚äº†
 
-          writeln('rtmpdump front-end "radiko_ripper" programed by exon@2021');
+          writeln('ffmpeg front-end "radiko_ripper" programmed by exon@2021');
           writeln('<how to use>');
-          writeln('radiko_ripper [•ú‘—‹Ç–¼] [˜^‰¹ŠÔ]');
-          writeln('radiko_ripper [•ú‘—‹Ç–¼] [•ú‘—ŠJnŠÔ] [•ú‘—I—¹ŠÔ]');
+          writeln('radiko_ripper [æ”¾é€å±€å] [éŒ²éŸ³æ™‚é–“]');
+          writeln('radiko_ripper [æ”¾é€å±€å] [æ”¾é€é–‹å§‹æ™‚é–“] [æ”¾é€çµ‚äº†æ™‚é–“]');
           writeln(' ');
-          writeln('•ú‘—‹Ç–¼‚Íƒ`ƒƒƒ“ƒlƒ‹‚ğ¦‚·‰p”š‚Å‚·');
-          writeln('—á) TOKYO FM -> FMT');
-          writeln('˜^‰¹ŠÔ‚Í1•ª’PˆÊ‚Åw’è‚µ‚Ü‚·');
+          writeln('æ”¾é€å±€åã¯ãƒãƒ£ãƒ³ãƒãƒ«ã‚’ç¤ºã™è‹±æ•°å­—ã§ã™');
+          writeln('ä¾‹) TOKYO FM -> FMT');
+          writeln('éŒ²éŸ³æ™‚é–“ã¯1åˆ†å˜ä½ã§æŒ‡å®šã—ã¾ã™');
           writeln(' ');
-          writeln('‰½‚àw’è‚µ‚È‚¯‚ê‚Î•ú‘—‹Ç‚Ì‘I‘ğ‰æ–Ê‚ğ•\¦‚µ‚Ü‚·');
-          writeln('˜^‰¹ŠÔ‚ÌƒfƒtƒHƒ‹ƒg‚Í30•ª‚É‚È‚Á‚Ä‚¢‚Ü‚·');
-          writeln('rtmpdumpÀs’†‚Í‚¢‚Â‚Å‚àCTRL+C‚Å’†~‚Å‚«‚Ü‚·');
+          writeln('ä½•ã‚‚æŒ‡å®šã—ãªã‘ã‚Œã°æ”¾é€å±€ã®é¸æŠç”»é¢ã‚’è¡¨ç¤ºã—ã¾ã™');
+          writeln('éŒ²éŸ³æ™‚é–“ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯30åˆ†ã«ãªã£ã¦ã„ã¾ã™');
+          writeln('ffmpegå®Ÿè¡Œä¸­ã¯ã„ã¤ã§ã‚‚CTRL+Cã§ä¸­æ­¢ã§ãã¾ã™');
           writeln(' ');
-          writeln('<g—p—á1> TOKYO FM‚ğ25•ª˜^‰¹‚·‚é‚Æ‚«');
+          writeln('<ä½¿ç”¨ä¾‹1> TOKYO FMã‚’25åˆ†éŒ²éŸ³ã™ã‚‹ã¨ã');
           writeln('radiko_ripper FMT 25');
           writeln(' ');
-          writeln('<g—p—á2> BAYFM‚ğƒ^ƒCƒ€ƒtƒŠ[˜^‰¹‚·‚é‚Æ‚«');
-          writeln('“ú•t‚Í”NŒ“ú•ª•b‚Åw’è‚µ‚Ü‚·');
+          writeln('<ä½¿ç”¨ä¾‹2> BAYFMã‚’ã‚¿ã‚¤ãƒ ãƒ•ãƒªãƒ¼éŒ²éŸ³ã™ã‚‹ã¨ã');
+          writeln('æ—¥ä»˜ã¯å¹´æœˆæ—¥æ™‚åˆ†ç§’ã§æŒ‡å®šã—ã¾ã™');
           writeln('radiko_ripper BAYFM78 20210118000100 20210118000300');
           writeln(' ');
-          writeln('EnterƒL[‚ÅI—¹‚µ‚Ü‚·');
+          writeln('Enterã‚­ãƒ¼ã§çµ‚äº†ã—ã¾ã™');
           writeln('hit enter key to quit.');
           readln(inputstr);
           exit;
       end;
 
-      //•ú‘—‹Ç–¼‚ğİ’è
+      //æ”¾é€å±€åã‚’è¨­å®š
       tuned_name := regexpr.Match[1];
-      //˜^‰¹ŠÔ •b’PˆÊ‚È‚Ì‚Å‚U‚O”{
+      //éŒ²éŸ³æ™‚é–“ ç§’å˜ä½ãªã®ã§ï¼–ï¼å€
       rec_sec := StrToInt(regexpr.Match[2]) * 60;
 
-      //‰ğ•ú
+      //è§£æ”¾
       regexpr.Free;
 
-      //‘I‘ğ‰æ–Ê‚ğ”ò‚Î‚·
+      //é¸æŠç”»é¢ã‚’é£›ã°ã™
       goto CHECK2;
   end;
 
-  //ƒ‰ƒWƒI‹Çˆê——‚ğ•\¦‚·‚é
+  //ãƒ©ã‚¸ã‚ªå±€ä¸€è¦§ã‚’è¡¨ç¤ºã™ã‚‹
 
-  writeln('===== rtmpdump‚É‚æ‚éƒ‰ƒWƒR‚Ì˜^‰¹ =====');
+  writeln('===== ffmpegã«ã‚ˆã‚‹ãƒ©ã‚¸ã‚³ã®éŒ²éŸ³ =====');
 
   for i:=1 to TEISU_MAX do
       writeln('[' + IntToStr(i) + ']' + ' ' + tune_name[i]);
 
 CHECK1:
 
-  writeln('•ú‘—‹Ç‚ğ‘I‚ñ‚Å‚­‚¾‚³‚¢B>');
+  writeln('æ”¾é€å±€ã‚’é¸ã‚“ã§ãã ã•ã„ã€‚>');
   readln(inputstr);
 
   for i:=1 to TEISU_MAX do
@@ -294,41 +292,41 @@ CHECK1:
          tuned_name := tune_alpha[i];
   end;
 
-  //ƒGƒ‰[ƒ`ƒFƒbƒN
+  //ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
   if (tuned_name = '') then goto CHECK1;
 
-  //ƒŠƒgƒ‰ƒCƒJƒEƒ“ƒ^‰Šú‰»
+  //ãƒªãƒˆãƒ©ã‚¤ã‚«ã‚¦ãƒ³ã‚¿åˆæœŸåŒ–
   intRetry := 0;
 
 CHECK2:
 
-  //ƒXƒeƒbƒv‚P@ƒvƒŒƒCƒ„[‚ğDL‚·‚é
+  //ã‚¹ãƒ†ãƒƒãƒ—ï¼‘ã€€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’DLã™ã‚‹
 
-  //20201212 ƒvƒŒƒCƒ„[‚ÍˆêØg‚í‚È‚¢‚Ì‚ÅDL‚â‘¶İƒ`ƒFƒbƒN‚ª•s—v
-  //‘S•”ƒRƒƒ“ƒgƒAƒEƒg
+  //20201212 ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯ä¸€åˆ‡ä½¿ã‚ãªã„ã®ã§DLã‚„å­˜åœ¨ãƒã‚§ãƒƒã‚¯ãŒä¸è¦
+  //å…¨éƒ¨ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ
 {
 
   strA := '-q --user-agent="' + TEISU_USERAGENT + '" -O player.swf ' + TEISU_SWF;
 
-  //‹óó‘Ô‚É‚µ‚Ä‚¨‚­
+  //ç©ºçŠ¶æ…‹ã«ã—ã¦ãŠã
   strList := TStringList.Create;
   strList.SaveToFile(TEISU_PLAYER);
   strList.Free;
 
   MyShellExecute(PChar('wget.exe'),PChar(strA));
 
-  //player.swf‚Ìƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ’²‚×‚é
+  //player.swfã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’èª¿ã¹ã‚‹
 
   FindFirst(TEISU_PLAYER, faAnyFile, srec);
   if (srec.Size < 8) then
   begin
-      writeln(TEISU_PLAYER + ' ‚Ì€”õ‚É¸”s‚µ‚Ü‚µ‚½');
+      writeln(TEISU_PLAYER + ' ã®æº–å‚™ã«å¤±æ•—ã—ã¾ã—ãŸ');
       exit;
   end;
   FindClose(srec.FindHandle);
 }
 
-  //ƒXƒeƒbƒv‚Q SSL”FØ
+  //ã‚¹ãƒ†ãƒƒãƒ—ï¼’ SSLèªè¨¼
 
   strA := '-q --user-agent="' + TEISU_USERAGENT + '"';
   strA := strA + ' --header="pragma: no-cache" --header="X-Radiko-App: pc_html5" --header="X-Radiko-App-Version: 0.0.1"';
@@ -339,25 +337,25 @@ CHECK2:
   //Sleep(500);
   //Application.ProcessMessages;
 
-  //‹óó‘Ô‚É‚µ‚Ä‚¨‚­
+  //ç©ºçŠ¶æ…‹ã«ã—ã¦ãŠã
   strList := TStringList.Create;
   strList.SaveToFile('auth1.txt');
   strList.Free;
 
   myShellExecute(PChar('wget.exe'),PChar(strA));
 
-  //SSL‚Ìƒtƒ@ƒCƒ‹‚ª–³–‚Éì‚ê‚½‚©’²‚×‚é
+  //SSLã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒç„¡äº‹ã«ä½œã‚ŒãŸã‹èª¿ã¹ã‚‹
 
   FindFirst('auth1.txt', faAnyFile, srec);
   if (srec.Size < 8) then
   begin
-      writeln('auth1.txt‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½');
+      writeln('auth1.txtã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ');
       exit;
   end;
   FindClose(srec.FindHandle);
 
 
-  //ƒXƒeƒbƒv‚R SSL”FØ‚Ì‚Â‚Ã‚«
+  //ã‚¹ãƒ†ãƒƒãƒ—ï¼“ SSLèªè¨¼ã®ã¤ã¥ã
 
   strList := TStringList.Create;
   strList.LoadFromFile('auth1.txt');
@@ -371,7 +369,7 @@ CHECK2:
   for i:=0 to strList.Count -1 do
   begin
 
-      //SSLƒg[ƒNƒ“‚Í‚Q‚Â‚Ìƒpƒ^[ƒ“‚ª‚ ‚é‚Ì‚Å‚Q‰ñƒ`ƒFƒbƒN‚·‚é
+      //SSLãƒˆãƒ¼ã‚¯ãƒ³ã¯ï¼’ã¤ã®ãƒ‘ã‚¿ãƒ¼ãƒ³ãŒã‚ã‚‹ã®ã§ï¼’å›ãƒã‚§ãƒƒã‚¯ã™ã‚‹
       if (sslToken = '') then
       begin
         regexpr.Expression := 'X-Radiko-AuthToken: (.*)';
@@ -405,36 +403,36 @@ CHECK2:
   strList.Free;
   //regexpr.Free;
 
-  //20201212 ƒp[ƒVƒƒƒ‹ƒL[‚ÍˆÈ‘O‚ÍPlayer.swf‚Ì’†‚ğ‰ğÍ‚µ‚Ä‚¢‚½‚¯‚ê‚Ç
-  //¡‚Í‚»‚Ì•K—v‚ª‚È‚­‚È‚Á‚½BŒ³‚É‚È‚é’l‚Æ keyoffsetAkeylength‚ª‚í‚©‚ê‚Î\•ª
+  //20201212 ãƒ‘ãƒ¼ã‚·ãƒ£ãƒ«ã‚­ãƒ¼ã¯ä»¥å‰ã¯Player.swfã®ä¸­ã‚’è§£æã—ã¦ã„ãŸã‘ã‚Œã©
+  //ä»Šã¯ãã®å¿…è¦ãŒãªããªã£ãŸã€‚å…ƒã«ãªã‚‹å€¤ã¨ keyoffsetã€keylengthãŒã‚ã‹ã‚Œã°ååˆ†
 
-  //—ájSSL”FØƒL[‚ğbase64‚ÅƒGƒ“ƒR[ƒh
+  //ä¾‹ï¼‰SSLèªè¨¼ã‚­ãƒ¼ã‚’base64ã§ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
   //strA := 'bcd151073c03b352e1ef2fd66c32209da9ca0afa';
   //strA := Copy(strA,keyoffset,keylength);
   //SSLKey := EncodeBase64(strA);
 
 {
-  //Player‚ğ‰ğÍ‚·‚é
+  //Playerã‚’è§£æã™ã‚‹
   fs := TFileStream.Create(TEISU_PLAYER, fmOpenRead);
 
-  //ƒtƒ@ƒCƒ‹ƒTƒCƒY
+  //ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚º
   filesize := fs.Size;
 
-  //ƒfƒR[ƒh‚Ìƒƒ‚ƒŠ‚ğ€”õ
+  //ãƒ‡ã‚³ãƒ¼ãƒ‰ã®ãƒ¡ãƒ¢ãƒªã‚’æº–å‚™
   GetMem(poutbuffer, filesize);
 
-  //ƒƒ‚ƒŠ‚É“Ç‚İ‚Ş
+  //ãƒ¡ãƒ¢ãƒªã«èª­ã¿è¾¼ã‚€
   FBuffer := TMemoryStream.Create;
   FBuffer.LoadFromStream(fs);
 
-  //æ“ª‚WƒoƒCƒg‚ğÌ‚Ä‚é
+  //å…ˆé ­ï¼˜ãƒã‚¤ãƒˆã‚’æ¨ã¦ã‚‹
   DeleteMS(FBuffer,0,7);
 
-  //ZLIBŒ`®‚ÅƒfƒR[ƒh
+  //ZLIBå½¢å¼ã§ãƒ‡ã‚³ãƒ¼ãƒ‰
   try
      DecompressBuf(FBuffer.Memory,filesize,0,poutbuffer,outbuffersize);
   except
-     //‰½‚à‚µ‚È‚¢
+     //ä½•ã‚‚ã—ãªã„
      filesize := filesize;
   end;
 
@@ -444,25 +442,25 @@ CHECK2:
   fileposition := 0;
   SSLKey := '';
 
-  //‰æ‘œ‚ğ’T‚·
+  //ç”»åƒã‚’æ¢ã™
   while (fileposition < outbuffersize) do
   begin
       FBuffer2.Write(PChar(poutbuffer)[fileposition],1);
       Inc(fileposition);
 
-      //ƒL[‚ğE‚¤
+      //ã‚­ãƒ¼ã‚’æ‹¾ã†
       //if (fileposition >= $13370 + keyoffset) then
       //if (fileposition < $13370 + keyoffset + keylength) then
       //    SSLKey := SSLKey + PChar(poutbuffer)[fileposition];
 
       //20121024
-      //‰æ‘œƒtƒ@ƒCƒ‹‚ğ’T‚· 10i‚Å85557‚ÌˆÊ’u‚É”­Œ©
+      //ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¢ã™ 10é€²ã§85557ã®ä½ç½®ã«ç™ºè¦‹
       if (PChar(poutbuffer)[fileposition] = 'J') then
       if (PChar(poutbuffer)[fileposition+1] = 'F') then
       if (PChar(poutbuffer)[fileposition+2] = 'I') then
       if (PChar(poutbuffer)[fileposition+3] = 'F') then
       begin
-          //85557 - 6‚Æ‚µ‚Ä‚UƒoƒCƒg‘O‚ª³‚µ‚¢ˆÊ’u‚Æ‚È‚é
+          //85557 - 6ã¨ã—ã¦ï¼–ãƒã‚¤ãƒˆå‰ãŒæ­£ã—ã„ä½ç½®ã¨ãªã‚‹
           jpgposition := fileposition -6;
           fileposition := jpgposition;
           break;
@@ -478,30 +476,30 @@ CHECK2:
       FBuffer2.Write(PChar(poutbuffer)[fileposition],1);
       Inc(fileposition);
 
-      //SSLKey‚ğE‚¤
+      //SSLKeyã‚’æ‹¾ã†
       if (fileposition >= jpgposition + keyoffset) then
       if (fileposition < jpgposition + keyoffset + keylength) then
           SSLKey := SSLKey + PChar(poutbuffer)[fileposition];
 
   end;
 
-  //ƒfƒoƒbƒO—pƒtƒ@ƒCƒ‹o—Í
+  //ãƒ‡ãƒãƒƒã‚°ç”¨ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›
   //FBuffer2.SaveToFile('player.swf.uncompressed');
   FBuffer2.Free;
 
-  //SSL”FØƒL[‚ğbase64‚ÅƒGƒ“ƒR[ƒh
+  //SSLèªè¨¼ã‚­ãƒ¼ã‚’base64ã§ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‰
   SSLKey := EncodeBase64(SSLKey);
 
   fs.free;
   regexpr.Free;
 }
 
-  //ƒXƒeƒbƒv‚S æ“¾‚Å‚«‚½î•ñ‚ğ•\¦
+  //ã‚¹ãƒ†ãƒƒãƒ—ï¼” å–å¾—ã§ããŸæƒ…å ±ã‚’è¡¨ç¤º
 
-  //playerCommon.js‚Å’è‹`‚³‚ê‚Ä‚¢‚éƒp[ƒVƒƒƒ‹ƒL[‚Ì’l
+  //playerCommon.jsã§å®šç¾©ã•ã‚Œã¦ã„ã‚‹ãƒ‘ãƒ¼ã‚·ãƒ£ãƒ«ã‚­ãƒ¼ã®å€¤
   strA := 'bcd151073c03b352e1ef2fd66c32209da9ca0afa';
 
-  //ƒIƒtƒZƒbƒg‚Í+1‚·‚é‚Ì‚ª³‚µ‚¢‚æ‚¤‚¾
+  //ã‚ªãƒ•ã‚»ãƒƒãƒˆã¯+1ã™ã‚‹ã®ãŒæ­£ã—ã„ã‚ˆã†ã 
   strA := Copy(strA,keyoffset+1,keylength);
   SSLKey := EncodeBase64(strA);
 
@@ -510,9 +508,9 @@ CHECK2:
   writeln('keylength: ' + IntToStr(keylength));
   writeln('SSL Key: ' + SSLKey);
 
-  //ƒXƒeƒbƒv‚T SSL”FØ‚ğŠ®—¹‚·‚é
+  //ã‚¹ãƒ†ãƒƒãƒ—ï¼• SSLèªè¨¼ã‚’å®Œäº†ã™ã‚‹
 
-  //20201212 ƒŠƒNƒGƒXƒgƒwƒbƒ_‚ÍradikoJSPlayer.js ‚Ì’è‹`‚ªQl‚É‚È‚Á‚½
+  //20201212 ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒ˜ãƒƒãƒ€ã¯radikoJSPlayer.js ã®å®šç¾©ãŒå‚è€ƒã«ãªã£ãŸ
 
   strA := '-q --user-agent="' + TEISU_USERAGENT + '"';
   strA := strA + ' --header="X-Radiko-App: pc_html5" --header="X-Radiko-App-Version: 0.0.1"';
@@ -523,55 +521,43 @@ CHECK2:
   strA := strA + ' --post-data="\r\n"';
   strA := strA + ' --server-response --trust-server-names';
 
-  //‚±‚Ì --server-response ‚ÅA‚à‚µ”FØƒGƒ‰[401‚È‚çpartialkey‚ÌˆÙí‚ª‚í‚©‚é
+  //ã“ã® --server-response ã§ã€ã‚‚ã—èªè¨¼ã‚¨ãƒ©ãƒ¼401ãªã‚‰partialkeyã®ç•°å¸¸ãŒã‚ã‹ã‚‹
 
   strA := strA + ' --no-check-certificate --save-headers -O auth2.txt ';
   strA := strA + TEISU_AUTH2;
 
-
-  //‘å–@wget‚É“n‚·ˆø”‚ÅAƒŠƒgƒ‰ƒC‚âƒ^ƒCƒ€ƒAƒEƒg‚Ìİ’è‚Í“ü‚ê‚Ä‚Í‚¢‚¯‚È‚¢
-  //İ’è‚·‚é‚Æˆ—‚ª–ß‚ç‚¸ƒS[ƒXƒgƒvƒƒZƒX‚É‚È‚é
-
-{  //ƒfƒoƒbƒO—p@ƒoƒbƒ`ƒtƒ@ƒCƒ‹
-  strList := TStringList.Create;
-  strList.Add('wget ' + strA);
-  strList.SaveToFile('test.bat');
-  strList.Free;
-}
-
-
-  //‹óó‘Ô‚É‚µ‚Ä‚¨‚­
+  //ç©ºçŠ¶æ…‹ã«ã—ã¦ãŠã
   strList := TStringList.Create;
   strList.SaveToFile('auth2.txt');
   strList.Free;
 
-  //­‚µ‘Ò‚Â
+  //å°‘ã—å¾…ã¤
   Application.ProcessMessages;
 
-  //ƒŠƒgƒ‰ƒCƒJƒEƒ“ƒ^‰Šú‰»
+  //ãƒªãƒˆãƒ©ã‚¤ã‚«ã‚¦ãƒ³ã‚¿åˆæœŸåŒ–
   intRetry := 0;
 
   myShellExecute(PChar('wget.exe'),PChar(strA));
 
-  //­‚µ‘Ò‚Â
+  //å°‘ã—å¾…ã¤
   Sleep(500);
   Application.ProcessMessages;
 
-  //SSL‚Ìƒtƒ@ƒCƒ‹‚ª–³–‚Éì‚ê‚½‚©’²‚×‚é
+  //SSLã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒç„¡äº‹ã«ä½œã‚ŒãŸã‹èª¿ã¹ã‚‹
 
   FindFirst('auth2.txt', faAnyFile, srec);
   if (srec.Size < 8) then
   begin
-      writeln('auth2.txt‚Ìì¬‚É¸”s‚µ‚Ü‚µ‚½');
+      writeln('auth2.txtã®ä½œæˆã«å¤±æ•—ã—ã¾ã—ãŸ');
 
       Inc(intRetry);
 
-      //‚Q‰ñƒŠƒgƒ‰ƒC‚·‚é
+      //ï¼’å›ãƒªãƒˆãƒ©ã‚¤ã™ã‚‹
       if (intRetry > 2) then exit;
 
-      writeln('ƒŠƒgƒ‰ƒC‚µ‚Ü‚·');
+      writeln('ãƒªãƒˆãƒ©ã‚¤ã—ã¾ã™');
 
-      //‚µ‚Î‚ç‚­‘Ò‹@‚µ‚ÄƒŠƒgƒ‰ƒC
+      //ã—ã°ã‚‰ãå¾…æ©Ÿã—ã¦ãƒªãƒˆãƒ©ã‚¤
       Sleep(2000);
       Application.ProcessMessages;
 
@@ -580,19 +566,19 @@ CHECK2:
   end;
   FindClose(srec.FindHandle);
 
-  //ƒXƒeƒbƒv‚U ‚·‚×‚Ä€”õŠ®—¹A‚¢‚æ‚¢‚æƒ‰ƒWƒR‚©‚çƒ_ƒEƒ“ƒ[ƒh
+  //ã‚¹ãƒ†ãƒƒãƒ—ï¼– ã™ã¹ã¦æº–å‚™å®Œäº†ã€ã„ã‚ˆã„ã‚ˆãƒ©ã‚¸ã‚³ã‹ã‚‰ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
 
-  //20200713 ƒ^ƒCƒ€ƒtƒŠ[˜^‰¹‚Ìê‡‚ğ’Ç‰Á
+  //20200713 ã‚¿ã‚¤ãƒ ãƒ•ãƒªãƒ¼éŒ²éŸ³ã®å ´åˆã‚’è¿½åŠ 
   if (starttime <> '') then
   if (endtime <> '') then
       goto CHECK3;
 
-  //o—Íƒtƒ@ƒCƒ‹–¼
+  //å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
   outputfilename := tuned_name + '_' + FormatDateTime('yyyymmdd_hhnnss',Now) + '.aac';
 
-  //20210117 ƒ‰ƒWƒR‚ª13“ú‚Éd—l•ÏX‚µ‚Ärtmpdump‚Å‚Íæ‚ê‚È‚­‚È‚Á‚½
-  //FlashƒTƒ|[ƒg‚ğ2020”N‚ÅI—¹‚µ‚½‰e‹¿‚Ì‚æ‚¤‚¾
-  //rtmpdump‚©‚çAffmpeg‚ÌHLS’ÊM‚É•ÏX‚·‚é•K—v‚ª‚ ‚é
+  //20210117 ãƒ©ã‚¸ã‚³ãŒ13æ—¥ã«ä»•æ§˜å¤‰æ›´ã—ã¦rtmpdumpã§ã¯å–ã‚Œãªããªã£ãŸ
+  //Flashã‚µãƒãƒ¼ãƒˆã‚’2020å¹´ã§çµ‚äº†ã—ãŸå½±éŸ¿ã®ã‚ˆã†ã 
+  //rtmpdumpã‹ã‚‰ã€ffmpegã®HLSé€šä¿¡ã«å¤‰æ›´ã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 
   //URL
   //strA := '/c start /low rtmpdump -r "rtmpe://203.211.199.180:1935"';
@@ -605,22 +591,22 @@ CHECK2:
   strA := strA + ' -acodec copy';
   strA := strA + ' ' + outputfilename;
 
-  //­‚µ‘Ò‹@
+  //å°‘ã—å¾…æ©Ÿ
   Sleep(2000);
 
   myShellExecute(PChar('cmd.exe'),PChar(strA));
 
-  //ffmpeg‚ğ•Â‚¶‚é‚½‚ß‚É‘Ò‹@‚·‚é
+  //ffmpegã‚’é–‰ã˜ã‚‹ãŸã‚ã«å¾…æ©Ÿã™ã‚‹
 
   i := 0;
   repeat
     Sleep(1000);
     Inc(i);
-  //ffmpeg‚Ì‹N“®‚É15•b‚Ù‚Ç‚©‚©‚é‚Ì‚Å‘«‚µ‚Ä‚¨‚­
+  //ffmpegã®èµ·å‹•ã«15ç§’ã»ã©ã‹ã‹ã‚‹ã®ã§è¶³ã—ã¦ãŠã
   //until (i > rec_sec);
   until (i > rec_sec +15);
 
-  //ffmpeg‚ÌƒvƒƒZƒX‚ğ’T‚µ‚ÄA•Â‚¶‚é
+  //ffmpegã®ãƒ—ãƒ­ã‚»ã‚¹ã‚’æ¢ã—ã¦ã€é–‰ã˜ã‚‹
   Snap := CreateToolHelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
   tp.dwSize := Sizeof(TProcessEntry32);
@@ -638,7 +624,7 @@ CHECK2:
         if (processname = 'ffmpeg.exe') then
         begin
             //debug
-            writeln('ffmpeg‚ğ”­Œ©B•Â‚¶‚Ü‚·');
+            writeln('ffmpegã‚’ç™ºè¦‹ã€‚é–‰ã˜ã¾ã™');
 
             processID := tp.th32ProcessID;
             fdwAccess := PROCESS_ALL_ACCESS or PROCESS_VM_READ;
@@ -650,7 +636,7 @@ CHECK2:
   CloseHandle(Snap);
 
   //debug
-  //writeln('‰æ–Ê‚ğ•Â‚¶‚Ü‚·');
+  //writeln('ç”»é¢ã‚’é–‰ã˜ã¾ã™');
   //readln(inputstr);
 
   exit;
@@ -658,10 +644,10 @@ CHECK2:
 CHECK3:
 
 
-  //20210118 ƒ^ƒCƒ€ƒtƒŠ[‚É‘Î‰
+  //20210118 ã‚¿ã‚¤ãƒ ãƒ•ãƒªãƒ¼ã«å¯¾å¿œ
 
   //debug
-  writeln('ƒ^ƒCƒ€ƒtƒŠ[˜^‰¹‚ğ‚µ‚Ü‚·');
+  writeln('ã‚¿ã‚¤ãƒ ãƒ•ãƒªãƒ¼éŒ²éŸ³ã‚’ã—ã¾ã™');
 
   strA := '/c start /low ffmpeg -headers "X-Radiko-AuthToken: ' + SSLToken + '"';
   strA := strA + ' -i "https://radiko.jp/v2/api/ts/playlist.m3u8';
@@ -670,18 +656,18 @@ CHECK3:
   strA := strA + '&to=' + endtime + '"';
   strA := strA + ' -acodec copy';
 
-  //o—Íƒtƒ@ƒCƒ‹–¼
+  //å‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
   outputfilename := tuned_name + '_' + starttime + '.aac';
 
   strA := strA + ' ' + outputfilename;
 
-  //­‚µ‘Ò‹@
+  //å°‘ã—å¾…æ©Ÿ
   Sleep(2000);
 
   myShellExecute(PChar('cmd.exe'),PChar(strA));
 
 
-//ƒƒCƒ“ƒ‹[ƒ`ƒ“I—¹-----------------------------------------
+//ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒãƒ³çµ‚äº†-----------------------------------------
 end.
 
 
