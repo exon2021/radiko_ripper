@@ -19,7 +19,7 @@ Delphi用のプロジェクトファイルでもあり、ソースでもあり�
 - 例) radiko_ripper FMT 25
 
 - タイムフリー録音するとき radiko_ripper <放送局名> <番組開始時間 年月日時分秒 yyyymmddhhmmss> <番組終了時間 年月日時分秒 yyyymmddhhmmss>
-- 例）radiko_ripper FMT 20210118000000 20210118003000
+- 例）radiko_ripper FMT 20230207000000 20230207003000
 
 - 引数を与えずに単に radiko_ripper を起動すると、使い方を表示します。
 
